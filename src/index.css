@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body{
+body {
   font-family: "Inter", system-ui;
 }
 
@@ -72,35 +72,29 @@ body{
   }
 }
 
-
 /* width */
-::-webkit-scrollbar
- {
+::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
-::-webkit-scrollbar-track
- {
+::-webkit-scrollbar-track {
   background: white;
   border: 1px solid #8080802f;
 }
 
 /* Handle */
-::-webkit-scrollbar-thumb
- {
+::-webkit-scrollbar-thumb {
   background: #e6e6e6;
   border-radius: 5px;
 }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover
- {
+::-webkit-scrollbar-thumb:hover {
   background: #ccc;
 }
 
 @layer base {
-
   .h1 {
     @apply text-[41px] leading-tight md:text-[63px] md:leading-[1.3] mb-4 font-bold;
   }
@@ -122,64 +116,62 @@ body{
   p {
     @apply leading-[1.3] text-[14px] text-gray-30;
   }
-  
 }
 
 @layer utilities {
-
   .has-scrollbar {
     padding-bottom: 1rem;
-}
+  }
 
-.has-scrollbar::-webkit-scrollbar {
-    height: .7rem;
+  .has-scrollbar::-webkit-scrollbar {
+    height: 0.7rem;
     /* for horizontal scroll */
-}
+  }
 
-.has-scrollbar::-webkit-scrollbar-thumb {
+  .has-scrollbar::-webkit-scrollbar-thumb {
     background: #ccc;
     -webkit-border-radius: 1.3rem;
-    border: .15rem solid #fff;
+    border: 0.15rem solid #fff;
     border-radius: 1.3rem;
-}
+  }
 
-.has-scrollbar::-webkit-scrollbar-track {
+  .has-scrollbar::-webkit-scrollbar-track {
     background: #8080802f;
-    border: .25rem solid #fff;
+    border: 0.25rem solid #fff;
     -webkit-border-radius: 1.3rem;
     border-radius: 1.3rem;
     width: calc(80% - 40px);
-}
+  }
 
   .has-scrollbar::-webkit-scrollbar-button {
-      width: calc(25% - 40px);
+    width: calc(25% - 40px);
   }
 
   .hide-scrollbar {
     overflow-x: auto; /* Enable horizontal scrolling */
     scrollbar-width: none; /* For Firefox */
   }
-  
+
   .hide-scrollbar::-webkit-scrollbar {
     display: none; /* For Chrome, Safari, and Edge */
   }
 
-  .btn-white  { 
-    @apply  medium-14 bg-white px-7 py-2.5 text-tertiary
+  .btn-white {
+    @apply medium-14 bg-white px-7 py-2.5 text-tertiary;
   }
 
-  .btn-light  { 
-    @apply  medium-14 bg-primary px-7 py-2.5 text-tertiary
+  .btn-light {
+    @apply medium-14 bg-primary px-7 py-2.5 text-tertiary;
   }
-  .btn-dark  { 
-    @apply  medium-14 bg-tertiary px-7 py-2.5 text-white
+  .btn-dark {
+    @apply medium-14 bg-tertiary px-7 py-2.5 text-white;
   }
-  .btn-outline  { 
-    @apply  medium-14 px-7 py-2.5 bg-white border border-slate-900/5 hover:bg-primary transition-all duration-300
+  .btn-outline {
+    @apply medium-14 px-7 py-2.5 bg-white border border-slate-900/5 hover:bg-primary transition-all duration-300;
   }
 
-  .btn-secondary  { 
-    @apply  medium-14 bg-secondary px-7 py-2.5 text-white transition-all  
+  .btn-secondary {
+    @apply medium-14 bg-secondary px-7 py-2.5 text-white transition-all;
   }
 
   .max-padd-container {

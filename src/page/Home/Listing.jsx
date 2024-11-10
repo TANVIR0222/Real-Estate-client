@@ -64,7 +64,7 @@ const Listing = () => {
   return (
     <div className="pb-16 text-center items-center">
       <div className="text-center pb-16">
-        <h6 className=" capitalize">Form concept to reality</h6>
+        <h6 className=" capitalize">Few steps to your new home</h6>
         <h2 className="h2">Discover oure newsst listings</h2>
       </div>
 
@@ -73,13 +73,11 @@ const Listing = () => {
         <ScrollArea className="w-full whitespace-nowrap rounded-md border bg-white">
           <div className="flex gap-4  p-5 ">
             {categories.map((artwork) => (
-              <figure
-                key={artwork.label}
-                className={`shrink-0 mx-auto`}
-              >
+              <figure key={artwork.label} className={`shrink-0 mx-auto`}>
                 <div className="overflow-hidden  rounded-full h-15 w-15">
-                  <div className="items-center text-center flex p-2  justify-center"
-                  style={{backgroundColor: `${artwork.color}`}}
+                  <div
+                    className="items-center text-center flex p-2  justify-center"
+                    style={{ backgroundColor: `${artwork.color}` }}
                   >
                     {artwork.icon}
                   </div>

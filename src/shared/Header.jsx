@@ -24,8 +24,8 @@ const Header = () => {
   return (
     <div className="">
       <header
-        className={`fixed w-full top-0 z-50 transition-all duration-300 ease-in-out max-w-screen-xl mx-auto ${
-          isScrolled ? "bg-black shadow-md" : "bg-black opacity-55 text-white"
+        className={`fixed w-full top-0 z-50 transition-all duration-300 ease-in-out max-w-screen-xl mx-auto  rounded-b-lg ${
+          isScrolled ? "bg-white shadow-md" : "bg-primarybg opacity-55 text-white"
         }`}
       >
         <div className="flex items-center justify-between gap-3 mx-2">

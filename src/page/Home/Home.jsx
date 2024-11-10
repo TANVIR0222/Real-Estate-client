@@ -1,5 +1,6 @@
 import Banner from "./Banner";
 import Feature from "./Feature";
+import Listing from "./Listing";
 
 const Home = () => {
     return (
@@ -7,6 +8,7 @@ const Home = () => {
            <Banner /> 
            {/*  */}
            <Feature />
+           <Listing />
         </div>
     );
 };

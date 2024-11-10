@@ -8,6 +8,7 @@ export default {
   theme: {
   	extend: {
   		colors: {
+
   			primary: {
   				DEFAULT: 'hsl(var(--primary))',
   				foreground: 'hsl(var(--primary-foreground))'
@@ -56,7 +57,11 @@ export default {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
+  			},
+			  green: "#39DB4A",
+			  red: "#FF6868",
+			  secondary: "#555",
+			  primarybg: "#FCFCFC",
   		},
   		screens: {
   			xs: '400px',
@@ -67,7 +72,8 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+		  
   	}
   },
   plugins: [require("tailwindcss-animate")],

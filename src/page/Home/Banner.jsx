@@ -33,9 +33,9 @@ const Banner = () => {
     Autoplay({ delay: 2000, stopOnInteraction: true })
   );
   return (
-    <div className="h-screen m space-y-10  flex flex-col md:flex-row items-center justify-between gap-10 bg-primarybg">
-      <div className="w-full md:w-1/2 space-y-5 md:space-y-10 mt-16 md:mt-1 mx-1">
-        <h1 className="text-3xl font-bold md:text-5xl">
+    <div className=" space-y-10  grid grid-cols-1 md:grid-cols-2 items-center justify-between gap-10 bg-primarybg">
+      <div className="space-y-5 md:space-y-10  md:mt-1 mx-1 ">
+        <h1 className="text-3xl font-bold md:text-5xl mt-16">
           Invest in <span className=" text-green">Your Future</span> with
           confidence
         </h1>
@@ -51,10 +51,10 @@ const Banner = () => {
           have indicated there are smoke and carbon monoxide detectors
         </p>
         <div className="gap-4 flex">
-          <a className="bg-green p-4 rounded-full" href="">
+          <a className="bg-green p-4 text-sm md:text-xl rounded-full" href="">
             Explore Properties
           </a>
-          <a className="bg-black text-white p-4 rounded-full" href="">
+          <a className="bg-black text-white text-sm md:text-xl p-4 rounded-full" href="">
             + Add Properties
           </a>
         </div>
@@ -80,10 +80,10 @@ const Banner = () => {
 
       {/* image sections */}
 
-      <div className="w-full md:w-1/2 ">
+      <div className=" ">
         <Carousel
           plugins={[plugin.current]}
-          className="w-full "
+          className="w-full mt-1 md:mt-16 "
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
         >
@@ -104,46 +104,9 @@ const Banner = () => {
           <CarouselNext /> */}
         </Carousel>
       </div>
-
-      {/* <div className="">
-        <img className="rounded-lg  text-center items-center mx-auto justify-center flex" src="/sideImg.png" alt="" />
-        <div className="flex gap-10">
-          <img className="w-64 rounded-lg" src="/sideImg1.png" alt="" />
-          <img className="w-64 rounded-lg" src="/sideImg2.png" alt="" />
-        </div>
-      </div> */}
     </div>
   );
 };
 
 export default Banner;
 
-/*
-
-<Carousel
-      plugins={[plugin.current]}
-      className="w-full max-w-xs"
-      onMouseEnter={plugin.current.stop}
-      onMouseLeave={plugin.current.reset}
-    >
-      <CarouselContent>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index}>
-            <div className="p-1">
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <span className="text-4xl font-semibold">{index + 1}</span>
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
-    </Carousel>
-
-
-
-
-*/

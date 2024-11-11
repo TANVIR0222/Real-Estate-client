@@ -1,12 +1,12 @@
 import { Input } from "@/components/ui/input";
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useUserRegisterMutation } from "@/app/feature/auth/authApi";
+import { useState } from "react";
 
 const Register = () => {
- 
-
+  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
@@ -14,13 +14,11 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+
   const [userRegister] = useUserRegisterMutation();
 
   const onSubmit = async (data) => {
-    // const image = data.image[0];
-
-    // console.log(filedata);
-    // console.log(data)
     const register = {
       firstname: data.firstname,
       lastname: data.lastname,
@@ -31,18 +29,21 @@ const Register = () => {
     console.log(register);
 
     try {
-      await userRegister(register).unwrap();
-      // console.log(res);
-      reset();
+      const res = await userRegister(register).unwrap();
+      if (res.msg) {
+        reset();
+
+        navigate("/login");
+      }
     } catch (error) {
-      console.log(error);
+      setError(error);
     }
   };
 
   return (
     <>
       <div className=" flex items-center justify-center h-fit">
-        <div className="mt-10  bg-white p-4 rounded ">
+        <div className="mt-10 shadow-xl bg-white p-4 rounded ">
           <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <h1 className=" font-bold text-lg">Create A Account !</h1>
             {/* firstname */}
@@ -57,6 +58,11 @@ const Register = () => {
                 className=" w-80 md:w-96 bg-gray-200 "
                 {...register("firstname", { required: true })}
               />
+              {errors.firstname && (
+                <span className="text-rose-700 italic">
+                  This field is required
+                </span>
+              )}
             </div>{" "}
             {/* last name */}
             <div className="">
@@ -70,6 +76,11 @@ const Register = () => {
                 className=" w-80 md:w-96 bg-gray-200 "
                 {...register("lastname", { required: true })}
               />
+              {errors.lastname && (
+                <span className="text-rose-700 italic">
+                  This field is required
+                </span>
+              )}
             </div>
             {/* email */}
             <div className="">
@@ -83,6 +94,11 @@ const Register = () => {
                 id="email"
                 {...register("email", { required: true })}
               />
+              {errors.email && (
+                <span className="text-rose-700 italic">
+                  This field is required
+                </span>
+              )}
             </div>
             {/* pass */}
             <div className="">
@@ -96,8 +112,13 @@ const Register = () => {
                 id="password"
                 {...register("password", { required: true })}
               />
-              {/* <p>{file.name}</p> */}
+              {errors.password && (
+                <span className="text-rose-700 italic">
+                  This field is required
+                </span>
+              )}
             </div>
+            <p className="text-red italic">{error.msg}</p>
             {/* login btn */}
             <div className=" mt-6">
               <Input
@@ -108,7 +129,9 @@ const Register = () => {
             </div>
             <p className="text-center my-4">
               Have an account?{" "}
-              <a href="/login" className="text-blue-600  cursor-pointer">Login </a>{" "}
+              <a href="/login" className="text-blue-600  cursor-pointer">
+                Login{" "}
+              </a>{" "}
             </p>
             <Link
               to={"/"}

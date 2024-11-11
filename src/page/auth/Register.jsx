@@ -108,7 +108,7 @@ const Register = () => {
             </div>
             <p className="text-center my-4">
               Have an account?{" "}
-              <a className="text-blue-600  cursor-pointer">Login </a>{" "}
+              <a href="/login" className="text-blue-600  cursor-pointer">Login </a>{" "}
             </p>
             <Link
               to={"/"}

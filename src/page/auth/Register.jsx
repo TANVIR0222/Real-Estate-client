@@ -1,48 +1,49 @@
 import { Input } from "@/components/ui/input";
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { MdOutlineCloudUpload } from "react-icons/md";
-import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useUserRegisterMutation } from "@/app/feature/auth/authApi";
 
 const Register = () => {
-  const fileRef = useRef(null);
-  const [file, setFile] = useState(undefined);
-  const [formData, setFormData] = useState({});
-  // console.log(file);
-
+ 
 
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data)
+  const [userRegister] = useUserRegisterMutation();
+
+  const onSubmit = async (data) => {
+    // const image = data.image[0];
+
+    // console.log(filedata);
+    // console.log(data)
     const register = {
       firstname: data.firstname,
       lastname: data.lastname,
       email: data.email,
       password: data.password,
-      conpass: data.conpass,
-      file: file.name,
-    }
+    };
 
     console.log(register);
-    
-  }
 
+    try {
+      await userRegister(register).unwrap();
+      // console.log(res);
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
       <div className=" flex items-center justify-center h-fit">
         <div className="mt-10  bg-white p-4 rounded ">
-          <form
-            className="w-full space-y-4"
-              onSubmit={handleSubmit(onSubmit)}
-          >
+          <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <h1 className=" font-bold text-lg">Create A Account !</h1>
             {/* firstname */}
             <div className="">
@@ -51,10 +52,10 @@ const Register = () => {
               </label>
               <Input
                 type="text"
-                id='firstname'
+                id="firstname"
                 placeholder="First Name"
                 className=" w-80 md:w-96 bg-gray-200 "
-                {...register("firstname", { required: true })} 
+                {...register("firstname", { required: true })}
               />
             </div>{" "}
             {/* last name */}
@@ -67,8 +68,7 @@ const Register = () => {
                 id="lastname"
                 placeholder="Last Name"
                 className=" w-80 md:w-96 bg-gray-200 "
-                {...register("lastname", { required: true })} 
-
+                {...register("lastname", { required: true })}
               />
             </div>
             {/* email */}
@@ -81,7 +81,7 @@ const Register = () => {
                 placeholder="Email Address"
                 className=" w-80 md:w-96 bg-gray-200 "
                 id="email"
-                {...register("email", { required: true })} 
+                {...register("email", { required: true })}
               />
             </div>
             {/* pass */}
@@ -94,40 +94,9 @@ const Register = () => {
                 placeholder="Password"
                 className=" w-80 md:w-96 bg-gray-200 "
                 id="password"
-
-                {...register("password", { required: true })} 
+                {...register("password", { required: true })}
               />
               {/* <p>{file.name}</p> */}
-            </div>
-            {/* conpass */}
-            <div className="">
-              <label className="label">
-                <span className="">Confirm Password</span>
-              </label>
-              <Input
-                type="password"
-                placeholder="Confirm Password"
-                className=" w-80 md:w-96 bg-gray-200 "
-                id="conpass"
-
-                {...register("conpass", { required: true })} 
-              />
-            </div>
-            <div className="">
-              <input
-                onChange={(e) => setFile(e.target.files[0])}
-                type="file"
-                ref={fileRef}
-                hidden
-                accept="imagw/*"
-              />
-              <label className="label">
-                <span className="">Image</span>
-              </label>
-              <MdOutlineCloudUpload
-                onClick={() => fileRef.current.click()}
-                className=" w-16 p-3 h-16  border border-black "
-              />
             </div>
             {/* login btn */}
             <div className=" mt-6">

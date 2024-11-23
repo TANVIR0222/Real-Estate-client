@@ -8,7 +8,6 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const { user } = useSelector((state) => state.auth);
-  console.log(user);
 
   useEffect(() => {
     const handleScroll = () => {

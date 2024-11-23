@@ -1,10 +1,14 @@
 import Search from "@/components/popularCategory/Search";
 import UserDropdownMenu from "@/components/popularCategory/UserDropdownMenu";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,7 +29,9 @@ const Header = () => {
     <div className="">
       <header
         className={`fixed w-full top-0 z-50 transition-all duration-300 ease-in-out max-w-screen-xl mx-auto  rounded-b-lg ${
-          isScrolled ? "bg-white shadow-md" : "bg-primarybg opacity-55 text-white"
+          isScrolled
+            ? "bg-white shadow-md"
+            : "bg-primarybg opacity-55 text-white"
         }`}
       >
         <div className="flex items-center justify-between gap-3 mx-2">
@@ -44,7 +50,15 @@ const Header = () => {
 
           {/* profile image  */}
           <div className="">
-          <UserDropdownMenu />
+           {
+            user ? (
+              <UserDropdownMenu />
+              ) : (
+                <Link to="/login">
+                  <button className="bg-green text-white rounded px-5 py-2">Login</button>
+                </Link>
+              )
+           }
           </div>
         </div>
       </header>

@@ -10,6 +10,9 @@ const Header = () => {
   // const { user } = useSelector((state) => state.auth);
   const user  = true;
 
+  console.log(user);
+  
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 0) {

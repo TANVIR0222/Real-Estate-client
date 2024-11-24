@@ -9,6 +9,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { useSelector } from "react-redux";
 
 const cards = [
   {
@@ -32,6 +33,9 @@ const Banner = () => {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   );
+
+  const { user } = useSelector((state) => state.auth);
+
   return (
     <div className=" space-y-10  grid grid-cols-1 md:grid-cols-2 items-center justify-between gap-10 bg-primarybg">
       <div className="space-y-5 md:space-y-10  md:mt-1 mx-1 ">
@@ -51,12 +55,24 @@ const Banner = () => {
           have indicated there are smoke and carbon monoxide detectors
         </p>
         <div className="gap-4 flex">
-          <a className="bg-green p-4 text-sm md:text-xl rounded-full" href="">
+          <a className="bg-green p-4 text-sm md:text-xl rounded-full animate-bounce" href="">
             Explore Properties
           </a>
-          <a className="bg-black text-white text-sm md:text-xl p-4 rounded-full" href="">
-            + Add Properties
-          </a>
+          {user ? (
+            <a
+              className="bg-black text-white text-sm md:text-xl p-4 rounded-full"
+              href="/create-List"
+            >
+              + Add Properties
+            </a>
+          ) : (
+            <a
+              className="bg-black text-white text-sm md:text-xl p-4 rounded-full"
+              href="/login"
+            >
+              + Add Properties
+            </a>
+          )}
         </div>
 
         <div className="flex">
@@ -109,4 +125,3 @@ const Banner = () => {
 };
 
 export default Banner;
-

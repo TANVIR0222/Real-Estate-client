@@ -1,98 +1,14 @@
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { BiTrash } from "react-icons/bi";
 import { IoIosClose, IoIosImages } from "react-icons/io";
-import { FaBed, FaHome, FaMinus, FaPlus, FaUsers } from "react-icons/fa";
-import { TbBeach, TbMountain, TbPool } from "react-icons/tb";
-import {
-  GiBoatFishing,
-  GiCactus,
-  GiFamilyHouse,
-  GiIsland,
-  GiWindmill,
-} from "react-icons/gi";
-import { FaSkiing } from "react-icons/fa";
-import { BiWorld } from "react-icons/bi";
-import { MdOutlineVilla } from "react-icons/md";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { FaMinus, FaPlus } from "react-icons/fa";
 import { useState } from "react";
 import Facilities from "@/components/popularCategory/Facilities";
-
-const categories = [
-  {
-    label: "All",
-    icon: <BiWorld />,
-    color: "#bfdbfe", // blue-200
-  },
-  {
-    label: "Urban Area",
-    icon: <MdOutlineVilla />,
-    color: "#ffe4b5", // light beige
-  },
-  {
-    label: "Seaside",
-    icon: <TbBeach />,
-    color: "#e9d5ff", // purple-200
-  },
-  {
-    label: "Wind Farm",
-    icon: <GiWindmill />,
-    color: "#d1fae5", // green-200
-  },
-  {
-    label: "Rural Area",
-    icon: <TbMountain />,
-    color: "#ccfbf1", // teal-200
-  },
-  {
-    label: "Desert Retreat",
-    icon: <GiCactus />, // Example icon
-    color: "#e5e7eb", // gray-200
-  },
-  {
-    label: "Private Island",
-    icon: <GiIsland />,
-    color: "#e0e7ff", // indigo-200
-  },
-  {
-    label: "Ski Resorts",
-    icon: <FaSkiing />,
-    color: "#fef3c7", // yellow-200
-  },
-  {
-    label: "Luxury Pools",
-    icon: <TbPool />,
-    color: "#cffafe", // cyan-200
-  },
-  {
-    label: "Lakeside",
-    icon: <GiBoatFishing />,
-    color: "#bfdbfe", // blue-200
-  },
-];
-
-const categoryTypes = [
-  {
-    name: "Whole Home",
-    description: "Enjoy complete privacy with the entire home to yourself.",
-    icon: <FaHome />,
-  },
-  {
-    name: "Private Room",
-    description: "Relax in your own room while sharing common areas.",
-    icon: <FaBed />,
-  },
-  {
-    name: "Guest Suite",
-    description:
-      "Experience comfort in a private suite within a larger property.",
-    icon: <GiFamilyHouse />,
-  },
-  {
-    name: "Shared Apartment",
-    description: "Stay in a cozy apartment with shared facilities.",
-    icon: <FaUsers />,
-  },
-];
+import CategoryType from "@/components/popularCategory/CategoryType";
+import CategoryList from "@/components/popularCategory/CategoryList";
+import { useSelector } from "react-redux";
+import { useAddPropertyMutation } from "@/app/feature/property/propertyApi";
+import axios from "axios";
+import getBaseUrl from "@/utils/getBaseUrl";
 
 const CreateListing = () => {
   const [category, setCategory] = useState("");
@@ -116,14 +32,6 @@ const CreateListing = () => {
       return { ...preve, [name]: value };
     });
   };
-  // console.log(formLocations);
-  // console.log(amenities);
-
-  // category
-  const [guestCount, setGuestsCount] = useState(1);
-  const [bedroomCount, setBedroomsCount] = useState(1);
-  const [bedCount, setBedsCount] = useState(1);
-  const [bathroomCount, setBathroomsCount] = useState(1);
 
   const handleSelectAmenities = (facilty) => {
     // console.log(facilty);
@@ -165,6 +73,48 @@ const CreateListing = () => {
     price: 0,
   });
 
+  // category
+  const [guestCount, setGuestsCount] = useState(1);
+  const [bedroomCount, setBedroomsCount] = useState(1);
+  const [bedCount, setBedsCount] = useState(1);
+  const [bathroomCount, setBathroomsCount] = useState(1);
+
+  const [addProperty, { isLoading }] = useAddPropertyMutation();
+  const handlePost = async (e) => {
+    e.preventDefault();
+
+    try {
+      const listtingForm = new FormData();
+
+      const data = {
+        userId: userId,
+        category: category,
+        type: type,
+        streetAddress: formLocations.streetAddress,
+        aptSuity: formLocations.aptSuite,
+        city: formLocations.city,
+        Province: formLocations.province,
+        country: formLocations.country,
+        guestCount: guestCount,
+        bedroomCount: bedroomCount,
+        bedCount: bedCount,
+        bathroomCount: bathroomCount,
+        amenities: amenities,
+        title: formDescriptiond.title,
+        descriptions: formDescriptiond.description,
+        price: formDescriptiond.price,
+      };
+
+      photos.forEach((photo) => listtingForm.append("photoList", photo));
+
+      const response = await addProperty(data).unwrap();
+     
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // Discription
   const handleDiscriptionChenge = (e) => {
     const { name, value } = e.target;
@@ -174,79 +124,32 @@ const CreateListing = () => {
     });
   };
 
+  const { user } = useSelector((state) => state.auth);
+  const userId = user._id;
+
   // console.log(formDescriptiond);
 
-  const handlePost = (e) => {
-    e.preventDefault();
-  }
-
   return (
-    <div className="mt-20">
-      <div className="h3">Add Property</div>
-      <form action="">
+    <div className="">
+      <div className="h3 my-14 md:mt-20">Add Property</div>
+      <form className="mx-2 md:mx-4" onSubmit={handlePost}>
         <h4>Describe Your Property</h4>
         {/* category */}
         <div className="shadow shadow-white">
-          <ScrollArea className="w-full whitespace-nowrap rounded-md border bg-white">
-            <div className="flex gap-4  p-5 cursor-pointer ">
-              {categories.map((item) => (
-                <figure
-                  onClick={() => setCategory(item.label)}
-                  key={item.label}
-                  className={`shrink-0 mx-auto`}
-                >
-                  <div className="overflow-hidden  rounded-full h-15 w-15">
-                    <div
-                      className="items-center text-center flex p-2  justify-center"
-                      style={{ backgroundColor: `${item.color}` }}
-                    >
-                      {item.icon}
-                    </div>
-                  </div>
-                  <figcaption className="pt-2 text-xs text-muted-foreground">
-                    <span
-                      className={`${
-                        category === item.label
-                          ? "text-purple-500 "
-                          : "text-muted-foreground"
-                      }`}
-                    >
-                      {item.label}
-                    </span>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
+          <CategoryList category={category} setCategory={setCategory} />
         </div>
 
         {/* container type & location */}
         <div className=" flex flex-col xl:flex-row gap-x-16">
           {/* type place */}
           <h4 className="h4 my-4">What is the type of your place?</h4>
-          <div className=" flex flex-col gap-y-3 md-6">
-            {categoryTypes.map((item) => (
-              <div
-                key={item.name}
-                onClick={() => setType(item.name)}
-                className={`${
-                  type === item.name
-                    ? " ring-1 ring-slate-900/50 bg-slate-200 "
-                    : " ring-1 ring-gray-200"
-                } flexBetween max-w-[777px] rounded-xl px-4 py-1 `}
-              >
-                <div className="">
-                  <h5 className="h5">{item.name}</h5>
-                  <p className="text-muted-foreground">{item.description}</p>
-                </div>
-                <div className="text-2xl">{item.icon}</div>
-              </div>
-            ))}
+          <div className=" flex flex-col  ">
+            {/*  */}
+            <CategoryType setType={setType} type={type} />
           </div>
 
           {/* place location */}
-          <div className="flex-1 mb-4">
+          <div className="flex-1 mb-4 mx-3 md:mx-1 ">
             <h4 className="h4 my-4">what's the address of your place?</h4>
             <div className="">
               {/*  */}
@@ -257,7 +160,7 @@ const CreateListing = () => {
                   value={formLocations.streetAddress}
                   name="streetAddress"
                   type="text"
-                  className="bg-white text-sm outline-none border-none mb-2 rounded h-10 w-80"
+                  className="bg-white text-sm outline-none border-[1px] border-black mb-2 rounded h-10 w-80 p-2 "
                   placeholder="Enter your street address"
                 />
               </div>
@@ -271,7 +174,7 @@ const CreateListing = () => {
                     value={formLocations.aptSuite}
                     name="aptSuite"
                     type="text"
-                    className="bg-white text-sm outline-none border-none mb-2 rounded h-10"
+                    className="bg-white text-sm outline-none border-[1px] border-black mb-2 rounded p-2 h-10"
                     placeholder="Atp , Suite (opt)"
                   />
                 </div>
@@ -283,7 +186,7 @@ const CreateListing = () => {
                     value={formLocations.city}
                     type="text"
                     name="city"
-                    className="bg-white text-sm outline-none border-none mb-2 rounded h-10"
+                    className="bg-white text-sm outline-none border-[1px] border-black mb-2 rounded p-2 h-10"
                     placeholder="City"
                   />
                 </div>
@@ -298,7 +201,7 @@ const CreateListing = () => {
                     value={formLocations.province}
                     name="province"
                     type="text"
-                    className="bg-white text-sm outline-none border-none mb-2 rounded h-10"
+                    className="bg-white text-sm outline-none border-[1px] border-black mb-2 rounded p-2 h-10"
                     placeholder="Province"
                   />
                 </div>
@@ -310,7 +213,7 @@ const CreateListing = () => {
                     value={formLocations.country}
                     type="text"
                     name="country"
-                    className="bg-white text-sm outline-none border-none mb-2 rounded h-10"
+                    className="bg-white text-sm outline-none border-[1px] border-black mb-2 rounded p-2  h-10"
                     placeholder="Country"
                   />
                 </div>
@@ -502,7 +405,7 @@ const CreateListing = () => {
               placeholder="Title"
               value={formDescriptiond.title}
               onChange={handleDiscriptionChenge}
-              className="bg-white p-2 border-2 text-sm outline-none border-none mb-2 w-full   rounded"
+              className="bg-white p-2  text-sm outline-none border-[1px] border-black mb-2 w-full   rounded"
             />
             <h5 className="h5">Descriptions:</h5>
             <textarea
@@ -512,7 +415,7 @@ const CreateListing = () => {
               required
               value={formDescriptiond.description}
               onChange={handleDiscriptionChenge}
-              className="bg-white p-2 border-2 text-sm outline-none border-none mb-2 w-full  resize-none  rounded"
+              className="bg-white p-2  text-sm outline-none border-[1px] border-black mb-2 w-full  resize-none  rounded"
             />
             <h5 className="h5">Price:</h5>
             <input
@@ -522,12 +425,12 @@ const CreateListing = () => {
               required
               value={formDescriptiond.price}
               onChange={handleDiscriptionChenge}
-              className="bg-white p-2 border-2 text-sm outline-none border-none mb-2   rounded"
+              className="bg-white p-2  text-sm outline-none border-[1px] border-black mb-2   rounded"
             />
           </div>
         </div>
         <button type="submit" className="bg-green px-4 py-2 rounded-full">
-          Create Property{" "}
+          {isLoading ? <p>Loading....</p> : ' Create Property'} {" "}
         </button>
       </form>
     </div>

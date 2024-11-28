@@ -3,7 +3,10 @@ import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useUserRegisterMutation } from "@/app/feature/auth/authApi";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { AiOutlineUpload } from "react-icons/ai";
+import { useImageUploadeMutation } from "@/app/feature/imageUploade/imageApi";
+import Loading from "@/components/popularCategory/Loading";
 
 const Register = () => {
   const [error, setError] = useState("");
@@ -15,8 +18,12 @@ const Register = () => {
   } = useForm();
 
   const navigate = useNavigate();
+  const fileref = useRef();
 
   const [userRegister] = useUserRegisterMutation();
+  const [image, setImage] = useState();
+
+  const [imageUploade, { isLoading }] = useImageUploadeMutation();
 
   const onSubmit = async (data) => {
     const register = {
@@ -24,21 +31,32 @@ const Register = () => {
       lastname: data.lastname,
       email: data.email,
       password: data.password,
+      image: image?.data
     };
-
-    console.log(register);
-
     try {
       const res = await userRegister(register).unwrap();
       if (res.msg) {
         reset();
-
         navigate("/login");
       }
     } catch (error) {
       setError(error);
     }
   };
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    try {
+      const res = await imageUploade(formData).unwrap();
+      setImage(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
 
   return (
     <>
@@ -48,6 +66,32 @@ const Register = () => {
             <h1 className=" font-bold text-lg">Create A Account !</h1>
             {/* firstname */}
             <div className="">
+              {/* Profile Image */}
+              <div className="flex flex-col items-center mb-4">
+                <div className=" flex">
+                  {isLoading ? <Loading /> :  <img
+                    className=" border border-black bg-slate-100 h-24 w-24 hover:bg-indigo-50 transition duration-300  rounded-full"
+                    src={image?.data || "https://www.shutterstock.com/image-vector/upload-icon-vector-web-computer-260nw-1924011959.jpg"}
+                    onClick={() => fileref.current.click()}
+                    alt=""
+                  /> }
+                 
+                </div>
+              </div>
+              <input
+                name="profileImage"
+                type="file"
+                accept="image/*"
+                ref={fileref}
+                hidden
+                onChange={handleImageChange}
+                className="text-sm text-gray-500"
+              />
+              {errors.firstname && (
+                <span className="text-rose-700 italic">
+                  This field is required
+                </span>
+              )}
               <label className="label">
                 <span className="">First Name</span>
               </label>

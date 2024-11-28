@@ -28,10 +28,15 @@ export const authSlice = createSlice({
       localStorage.removeItem("user");
       localStorage.removeItem("token");
     },
+    // setListing:(state,action) =>{
+    //   state.listing = action.payload.listing
+    //   console.log(state.listing);
+      
+    // }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUser, logout } = authSlice.actions;
+export const { setUser, logout , setListing} = authSlice.actions;
 
 export default authSlice.reducer;

@@ -11,8 +11,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-const UserDropdownMenu = () => {
-  const [position, setPosition] = useState("bottom");
+import { Link } from "react-router-dom";
+const UserDropdownMenu = ({user}) => {
+  const [position, setPosition] = useState("");
 
   const [userLogout]  = useUserLogoutMutation();
   const dispatch = useDispatch();
@@ -33,20 +34,19 @@ const UserDropdownMenu = () => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <img
-            className="w-10 rounded"
-            src="https://png.pngtree.com/png-vector/20191110/ourmid/pngtree-avatar-icon-profile-icon-member-login-vector-isolated-png-image_1978396.jpg"
+            className="w-14 h-14 rounded-full"
+            src={user?.profileImage}
             alt=""
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56 ml-1 md:mr-20">
-          <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+          <DropdownMenuLabel>{user?.firstname} {user?.lastname}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-            <DropdownMenuRadioItem value="top">Add a Property</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="bottom">Trip List</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="right">Wish Lish</DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="right">Property List</DropdownMenuRadioItem>  
-            <DropdownMenuRadioItem value="right">Reservation List</DropdownMenuRadioItem>
+          <Link to={'/create-List'}><DropdownMenuRadioItem value="top">Add a Property</DropdownMenuRadioItem></Link> 
+          <Link to={'/create-List'}> <DropdownMenuRadioItem value="bottom">Trip List</DropdownMenuRadioItem></Link> 
+          <Link to={'/create-List'}> <DropdownMenuRadioItem value="wish">Wish Lish</DropdownMenuRadioItem></Link> 
+          <Link to={'/create-List'}> <DropdownMenuRadioItem value="property">Property List</DropdownMenuRadioItem></Link> 
             <DropdownMenuRadioItem onClick ={handleLogout} value="right">Logout</DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>

@@ -7,11 +7,7 @@ import { Link } from "react-router-dom";
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // const { user } = useSelector((state) => state.auth);
-  const user  = true;
-
-  console.log(user);
-  
+  const { user } = useSelector((state) => state.auth);  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,12 +46,11 @@ const Header = () => {
 
           {/* search */}
           <Search />
-
           {/* profile image  */}
           <div className="">
            {
             user ? (
-              <UserDropdownMenu />
+              <UserDropdownMenu user={user} />
               ) : (
                 <Link to="/login">
                   <button className="bg-green text-white rounded px-5 py-2">Login</button>

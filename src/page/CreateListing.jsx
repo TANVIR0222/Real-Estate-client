@@ -1,19 +1,21 @@
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { IoIosClose, IoIosImages } from "react-icons/io";
-import { FaMinus, FaPlus } from "react-icons/fa";
+import { FaCloudUploadAlt, FaMinus, FaPlus } from "react-icons/fa";
 import { useState } from "react";
 import Facilities from "@/components/popularCategory/Facilities";
 import CategoryType from "@/components/popularCategory/CategoryType";
 import CategoryList from "@/components/popularCategory/CategoryList";
 import { useSelector } from "react-redux";
-import { useAddPropertyMutation } from "@/app/feature/property/propertyApi";
-import axios from "axios";
-import getBaseUrl from "@/utils/getBaseUrl";
+import { useAddPropertyMutation } from "@/app/feature/propertyApi/propertyApi";
+import { useImageUploadeMutation } from "@/app/feature/imageUploade/imageApi";
+import { MdDelete } from "react-icons/md";
+import PropetyList from "@/components/popularCategory/PropetyList";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const CreateListing = () => {
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("All");
   const [amenities, setAmenities] = useState([]);
   const [type, setType] = useState("");
+  const [error, setError] = useState("");
   const [photos, setPhotos] = useState([]);
 
   // address / locations
@@ -44,26 +46,22 @@ const CreateListing = () => {
     }
   };
 
-  const handleUploadePhotos = (e) => {
-    const newPhoto = e.target.files;
-    console.log(newPhoto);
-    setPhotos((prevPhotos) => [...prevPhotos, ...newPhoto]);
-  };
+  const [imageUploade, { isLoading: imageLoading }] = useImageUploadeMutation();
 
-  const handleDraPhoto = (result) => {
-    if (!result.destination) return;
-    const items = Array.from(photos);
-    const [reorderedItem] = items.splice(result.destination.index, 1);
-    items.splice(result.description.index, 0, reorderedItem);
-    // setPhotos(items.concat(reorderedItem))
-    setPhotos(items);
-  };
+  const handleUploadImage = async (e) => {
+    const file = e.target.files[0];
 
-  const handleRemovePhoto = (indexToRemove) => {
-    // const updatedPhotos = [...photos]
-    setPhotos((prevPhotos) =>
-      prevPhotos.filter((_, index) => index !== indexToRemove)
-    );
+    if (!file) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append("avatar", file);
+    try {
+      const { data } = await imageUploade(formData).unwrap();
+      setPhotos((prevPhotos) => [...prevPhotos, data]);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // Discription
@@ -79,13 +77,34 @@ const CreateListing = () => {
   const [bedCount, setBedsCount] = useState(1);
   const [bathroomCount, setBathroomsCount] = useState(1);
 
+  // Discription
+  const handleDiscriptionChenge = (e) => {
+    const { name, value } = e.target;
+    setFormDescriptiond({
+      ...formDescriptiond,
+      [name]: value,
+    });
+  };
+
+  const { user } = useSelector((state) => state.auth);
+  const userId = user?.id;
+
+  const handleDeleteImage = (index) => {
+    setPhotos((prevPhotos) => {
+      const updatedPhotos = [...prevPhotos];
+      updatedPhotos.splice(index, 1);
+      return updatedPhotos;
+    });
+  };
+
+  
+
   const [addProperty, { isLoading }] = useAddPropertyMutation();
+  const navigate = useNavigate();
   const handlePost = async (e) => {
     e.preventDefault();
 
     try {
-      const listtingForm = new FormData();
-
       const data = {
         userId: userId,
         category: category,
@@ -103,31 +122,46 @@ const CreateListing = () => {
         title: formDescriptiond.title,
         descriptions: formDescriptiond.description,
         price: formDescriptiond.price,
+        listingPhotoPath: photos,
       };
 
-      photos.forEach((photo) => listtingForm.append("photoList", photo));
-
       const response = await addProperty(data).unwrap();
-     
-      console.log(response);
+      if (response.success) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        setFormDescriptiond({
+          title: "",
+          description: "",
+          price: "",
+        });
+        setGuestsCount(1);
+        setBedroomsCount(1);
+        setBedsCount(1);
+        setBathroomsCount(1);
+        setformLocations({
+          streetAddress: "",
+          aptSuite: "",
+          city: "",
+          province: "",
+          country: "",
+        });
+        setCategory("");
+        setAmenities([]);
+        setPhotos([]);
+        setType("");
+      }
+      navigate("/");
     } catch (error) {
-      console.log(error);
+      setError(error.data.message);
     }
   };
 
-  // Discription
-  const handleDiscriptionChenge = (e) => {
-    const { name, value } = e.target;
-    setFormDescriptiond({
-      ...formDescriptiond,
-      [name]: value,
-    });
-  };
 
-  const { user } = useSelector((state) => state.auth);
-  const userId = user._id;
-
-  // console.log(formDescriptiond);
 
   return (
     <div className="">
@@ -304,133 +338,70 @@ const CreateListing = () => {
           </ul>
           {/* include image */}
           <h4 className="h4 my-6">Include image showcass your property</h4>
-          <DragDropContext onDragEnd={handleDraPhoto}>
-            <Droppable droppableId="photo" direction="horizantal">
-              {(provided) => (
-                <div
-                  className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 p-4 bg-gray-50 rounded-lg shadow-lg gap-4"
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {photos.length < 1 && (
+          {/* image  */}
+          <div>
+            <h5 className="h5">Image</h5>
+            <div>
+              <label
+                htmlFor="productImage"
+                className="bg-blue-50 h-24 border rounded flex justify-center items-center cursor-pointer"
+              >
+                <div className="text-center flex justify-center items-center flex-col">
+                  {imageLoading ? (
+                    <p>Loading...</p>
+                  ) : (
                     <>
-                      <input
-                        type="file"
-                        name="image"
-                        accept="image/*"
-                        onChange={handleUploadePhotos}
-                        multiple
-                        id="imageUploade"
-                        className="hidden"
-                      />
-                      <label
-                        htmlFor="imageUploade"
-                        className=" group flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg p-6 hover:bg-gray-100 transition-colors cursor-pointer"
-                      >
-                        <div className="h-52 w-full flexCenter">
-                          <IoIosImages className="text-6xl text-gray-400 group-hover:text-gray-600 transition-colors" />
-                        </div>
-                        <p className=" text-gray-500 group-hover:text-gray-700">
-                          Uploade form your device
-                        </p>
-                      </label>
+                      <FaCloudUploadAlt size={35} />
+                      <p>Upload Image</p>
                     </>
                   )}
-                  {photos.length >= 1 && (
-                    <>
-                      {photos.map((photo, index) => (
-                        <Draggable
-                          key={index}
-                          draggableId={index.toString()}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <div
-                              className="relative"
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              ref={provided.innerRef}
-                            >
-                              <img
-                                src={URL.createObjectURL(photo)}
-                                alt="property"
-                                className=" aspect-square object-contain h-52 w-full rounded-lg shadow-md"
-                              />
-                              <button
-                                className="absolute top-2 right-1 bg-white rounded-full p-1 hover:bg-gray-200 transition-colors"
-                                onClick={() => handleRemovePhoto(index)}
-                              >
-                                <IoIosClose className="text-2xl  text-gray-500" />
-                              </button>
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
-                      {/*  */}
-                      <input
-                        type="file"
-                        id="imageUploade"
-                        accept="image/*"
-                        onChange={handleUploadePhotos}
-                        multiple
-                        className="hidden"
-                      />
-                      <label
-                        htmlFor="imageUploade"
-                        className=" group flexCenter flex flex-col border-2 border-dashed border-gray-300 p-6 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
-                      >
-                        <div className="h-40 w-full flexCenter">
-                          <IoIosImages className="text-6xl text-gray-400 group-hover:text-gray-600 transition-colors" />
-                        </div>
-                        <p className=" text-gray-500 group-hover:text-gray-700">
-                          Uploade more photos
-                        </p>
-                      </label>
-                    </>
-                  )}
-                  {provided.placeholder}
                 </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+                <input
+                  type="file"
+                  id="productImage"
+                  className="hidden"
+                  accept="image/*"
+                  onChange={handleUploadImage}
+                />
+              </label>
+              {/**display uploded image*/}
+              <div className="flex flex-wrap gap-4">
+                {photos?.map((img, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="h-20 mt-1 w-20 min-w-20 bg-blue-50 border relative group"
+                    >
+                      <img
+                        src={img}
+                        alt={img}
+                        className="w-full h-full object-scale-down cursor-pointer"
+                      />
+                      <div
+                        onClick={() => handleDeleteImage(index)}
+                        className="absolute bottom-0 right-0 p-1 text-red-500 rounded  hidden group-hover:block cursor-pointer"
+                      >
+                        <MdDelete size={16} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
           <h4 className="h4 my-5">
             How would your characterize the charm and excitment of this
             property?
           </h4>
-          <div className="">
-            <h5 className="h5">Title:</h5>
-            <input
-              type="text"
-              name="title"
-              placeholder="Title"
-              value={formDescriptiond.title}
-              onChange={handleDiscriptionChenge}
-              className="bg-white p-2  text-sm outline-none border-[1px] border-black mb-2 w-full   rounded"
-            />
-            <h5 className="h5">Descriptions:</h5>
-            <textarea
-              name="description"
-              placeholder="Description"
-              rows={10}
-              required
-              value={formDescriptiond.description}
-              onChange={handleDiscriptionChenge}
-              className="bg-white p-2  text-sm outline-none border-[1px] border-black mb-2 w-full  resize-none  rounded"
-            />
-            <h5 className="h5">Price:</h5>
-            <input
-              type="number"
-              name="price"
-              placeholder="100"
-              required
-              value={formDescriptiond.price}
-              onChange={handleDiscriptionChenge}
-              className="bg-white p-2  text-sm outline-none border-[1px] border-black mb-2   rounded"
-            />
-          </div>
+          {/*  */}
+          <PropetyList
+            formDescriptiond={formDescriptiond}
+            handleDiscriptionChenge={handleDiscriptionChenge}
+          />
         </div>
+        <p className="text-red-400 italic h5">{error}</p>
         <button type="submit" className="bg-green px-4 py-2 rounded-full">
-          {isLoading ? <p>Loading....</p> : ' Create Property'} {" "}
+          {isLoading ? <p>Loading....</p> : " Create Property"}{" "}
         </button>
       </form>
     </div>

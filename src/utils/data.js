@@ -1,52 +1,9 @@
 import { TbBeach, TbMountain, TbPool } from "react-icons/tb";
-import {
-  GiBoatFishing,
-  GiCactus,
-  GiFamilyHouse,
-  GiIsland,
-  GiWindmill,
-} from "react-icons/gi";
-import {
-  FaSkiing,
-  FaPumpSoap,
-  FaShower,
-  FaFireExtinguisher,
-  FaUmbrellaBeach,
-  FaKey,
-  FaHome,
-  FaUsers,
-} from "react-icons/fa";
-import { FaKitchenSet, FaBed } from "react-icons/fa6";
-import {
-  BiSolidWasher,
-  BiSolidDryer,
-  BiSolidFirstAid,
-  BiWifi,
-  BiSolidFridge,
-} from "react-icons/bi";
-import { BsSnow, BsPersonWorkspace } from "react-icons/bs";
-import {
-  MdOutlineVilla,
-  MdMicrowave,
-  MdBalcony,
-  MdYard,
-  MdPets,
-} from "react-icons/md";
-import {
-  PiBathtubFill,
-  PiCoatHangerFill,
-  PiTelevisionFill,
-} from "react-icons/pi";
-import { TbIroning3 } from "react-icons/tb";
-import {
-  GiHeatHaze,
-  GiCctvCamera,
-  GiBarbecue,
-  GiToaster,
-  GiCampfire,
-} from "react-icons/gi";
-import { AiFillCar } from "react-icons/ai";
+import { GiBoatFishing, GiCactus, GiIsland, GiWindmill } from "react-icons/gi";
+import { FaSkiing } from "react-icons/fa";
+import { MdOutlineVilla } from "react-icons/md";
 import { BiWorld } from "react-icons/bi";
+
 
 export const navbar = [
   {
@@ -74,7 +31,7 @@ export const navbar = [
 export const categories = [
   {
     label: "All",
-    icon:  < BiWorld /> ,
+    icon: <BiWorld />,
     color: "#bfdbfe", // blue-200
   },
   {
@@ -123,7 +80,3 @@ export const categories = [
     color: "#bfdbfe", // blue-200
   },
 ];
-
-
-
-

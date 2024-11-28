@@ -25,6 +25,12 @@ export const authApi = createApi({
         method: "POST",
       }),
     }),
+    addProperty: builder.mutation({
+      query: () => ({
+        url: "logout",
+        method: "POST",
+      }),
+    }),
   }),
 });
 

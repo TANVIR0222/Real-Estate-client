@@ -4,6 +4,8 @@ import Home from "../page/Home/Home";
 import Login from "../page/auth/Login";
 import Register from "../page/auth/Register";
 import CreateListing from "@/page/CreateListing";
+import ListCart from "@/components/popularCategory/ListCart";
+import PropertyView from "@/components/popularCategory/PropertyView";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +27,14 @@ export const router = createBrowserRouter([
         {
             path:'/create-List',
             element: <CreateListing />
+        },
+        {
+            path:'/listCart/:label',
+            element: <ListCart />
+        },
+        {
+            path:'/property/:id',
+            element: <PropertyView />
         },
     ]
   },

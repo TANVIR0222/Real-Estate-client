@@ -14,8 +14,6 @@ import { Link } from "react-router-dom";
 const WishList = () => {
   const { user } = useSelector((state) => state.auth);
   const { data, isLoading } = useFavoritePropertyQuery(user?.id);
-  console.log(data);
-
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
 
   return isLoading ? (
@@ -24,7 +22,7 @@ const WishList = () => {
     <div className=" grid grid-cols-1 md:grid-cols-2">
       {data?.map((item) => (
         <div
-          key={item.id}
+          key={item._id}
           className=" gap-4 ring-1 ring-slate-900/5 w-96 md:w-[600px] place-items-start my-5 bg-white cursor-pointer p-4 rounded-[2.5rem] relative mx-4 text-left mt-16"
         >
           <Link to={`/property/${item.propertyId}`}>

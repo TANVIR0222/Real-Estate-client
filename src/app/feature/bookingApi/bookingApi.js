@@ -12,9 +12,9 @@ export const bookingApi = createApi({
         body: newData,
       }),
     }),
-    // categoryFilter: builder.query({
-    //   query: (category) => `category?category=${category}`
-    // }),
+    favoriteProperty: builder.query({
+      query: (id) => `favorite-booking/${id}`
+    }),
     // singleCategoryProperty: builder.query({
     //   query: (_id) => ({
     //     url: `single-Property/${_id}`,
@@ -23,4 +23,4 @@ export const bookingApi = createApi({
   }),
 })
 
-export const { useAddFavoiteMutation  } = bookingApi
+export const { useAddFavoiteMutation  , useFavoritePropertyQuery } = bookingApi

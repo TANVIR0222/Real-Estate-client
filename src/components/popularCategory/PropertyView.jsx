@@ -175,18 +175,6 @@ const PropertyView = () => {
   const end = new Date(selectDate[0].endDate);
   const dayCount = Math.round(end - start) / (1000 * 60 * 60 * 24);
 
-  //   const {
-  //     category,
-  //     streetAddress,
-  //     aptSuity,
-  //     city,
-  //     Province,
-  //     bathroomCount,
-  //     amenities,
-  //     ,
-  //     title,
-  //     ,
-  //   } = property?.products;
 
   return (
     <div className="flex flex-col-reverse md:flex-row ">

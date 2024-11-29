@@ -10,8 +10,6 @@ import {
 import { useRef, useState } from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addProperty } from "@/app/feature/propertyApi/propertySlice";
 import { useSelector } from "react-redux";
 import { useAddFavoiteMutation } from "@/app/feature/bookingApi/bookingApi";
 
@@ -29,16 +27,13 @@ const ListCart = ({ property }) => {
     price,
   } = property;
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
-  const dispatch = useDispatch();
 
   const [amenitie, setAmenitie] = useState(false);
-  const [error, setError] = useState(false);
   const handleAdd = () => {
     setAmenitie(!amenitie);
   };
 
   const { user } = useSelector((state) => state.auth);
-  // console.log(user?.id);
   const [addFavoite] = useAddFavoiteMutation();
 
   const handleSelectAmenities = async (id) => {
@@ -46,15 +41,23 @@ const ListCart = ({ property }) => {
       const data = {
         userId: user?.id,
         propertyId: id,
+        category: category,
+        type: type,
+        city: city,
+        Province: Province,
+        country: country,
+        listingPhotoPath: listingPhotoPath,
+        title: title,
+        descriptions: descriptions,
+        price: price,
       };
 
-      await addFavoite(data).unwrap();
+     const res = await addFavoite(data).unwrap();
+     console.log(res.message);
     } catch (error) {
       alert(error.data.message);
     }
   };
-
-  console.log(error);
 
   return (
     <div className=" gap-4 ring-1 ring-slate-900/5 w-96 md:w-[600px] place-items-start my-5 bg-white cursor-pointer p-4 rounded-[2.5rem] relative mx-4">

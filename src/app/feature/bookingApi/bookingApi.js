@@ -13,8 +13,9 @@ export const bookingApi = createApi({
       }),
     }),
     favoriteProperty: builder.query({
-      query: (id) => `favorite-booking/${id}`
+      query: (id) => `all-trip-list/${id}`
     }),
+   
     // singleCategoryProperty: builder.query({
     //   query: (_id) => ({
     //     url: `single-Property/${_id}`,

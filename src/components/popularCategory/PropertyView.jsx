@@ -149,10 +149,12 @@ const facilities = [
   },
 ];
 
-import { Calendar, DateRange } from "react-date-range";
+import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { useState } from "react";
+import { useAddTripListMutation } from "@/app/feature/tripListApi/tripApi";
+import Swal from "sweetalert2";
 
 const PropertyView = () => {
   const { id } = useParams();
@@ -174,9 +176,52 @@ const PropertyView = () => {
   const start = new Date(selectDate[0].startDate);
   const end = new Date(selectDate[0].endDate);
   const dayCount = Math.round(end - start) / (1000 * 60 * 60 * 24);
+  const [addTripList, { isLoading: tripListLoading, refatch }] =
+    useAddTripListMutation();
+  
+    // console.log(property?.hidden);
+    
 
+  const handleAdd = async () => {
+    if (dayCount < 1) {
+      return alert("Please select a date range");
+    }
 
-  return (
+    const data = {
+      userId: user?.id,
+      propertyId: id,
+      category: property?.category,
+      type: property?.type,
+      city: property?.city,
+      Province: property?.Province,
+      country: property?.country,
+      listingPhotoPath: property?.listingPhotoPath,
+      title: property?.title,
+      descriptions: property?.descriptions,
+      price: property?.price,
+      start: start,
+      end: end,
+      dayCount: dayCount,
+    };
+    try {
+      const res = await addTripList(data).unwrap();
+      if (res.success) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Trip List add successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className="flex flex-col-reverse md:flex-row ">
       <div className="max-padd-container flex flex-col-reverse gap-12 xl:flex-row py-10 mt-16 md:w-1/2 w-full">
         {/* left */}
@@ -244,7 +289,11 @@ const PropertyView = () => {
 
           {/*  */}
           <h4 className="h4 py-3 my-2">How long do you want to stay?</h4>
-          <DateRange className="w-96" ranges={selectDate} onChange={handleSelect} />
+          <DateRange
+            className="w-96"
+            ranges={selectDate}
+            onChange={handleSelect}
+          />
           {/*  */}
           <div className="flexStart gap-4 flex-wrap py-7">
             <div className="">
@@ -252,7 +301,7 @@ const PropertyView = () => {
                 <div className="flexStart gap-x-2 pt-2">
                   <h5 className="bold-16">Total Stay :</h5>
                   <p className=" relative p-1">
-                   $ {property?.price} x {dayCount} nigths
+                    $ {property?.price} x {dayCount} nigths
                   </p>
                 </div>
               ) : (
@@ -289,27 +338,31 @@ const PropertyView = () => {
           </div>
           {/*  */}
           <button
+            onClick={handleAdd}
             type="submit"
-            className="bg-green rounded-full flexCenter px-4 py-2 capitalize"
+            className={`bg-green rounded-full flexCenter w-48 px-4 py-2 capitalize`}
           >
-            Book the visite
+            {tripListLoading ? <p>Loading...</p> : " Book the visite"}
           </button>
         </div>
       </div>
       {/* view image  */}
       <div className="flex-1">
         <div className=" flex flex-wrap mt-16">
-          {
-            property?.listingPhotoPath.map((item, index) => (
-              <div key={index} className={`${index === 0 ? 'w-full' : 'w-1/2'} p-2`}>
-                <img
+          {property?.listingPhotoPath.map((item, index) => (
+            <div
+              key={index}
+              className={`${index === 0 ? "w-full" : "w-1/2"} p-2`}
+            >
+              <img
                 src={item}
                 alt="property"
-                className={`max-w-full ${index === 0 ? ' object-contain rounded-3xl' : ' rounded-2xl'}`}
-                />
-              </div>
-            ))
-          }
+                className={`max-w-full ${
+                  index === 0 ? " object-contain rounded-3xl" : " rounded-2xl"
+                }`}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>

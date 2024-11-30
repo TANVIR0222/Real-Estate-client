@@ -20,7 +20,12 @@ export const propertyApi = createApi({
         url: `single-Property/${_id}`,
       }),
     }),
+    searchCategoryProperty: builder.query({
+      query: (title) => ({
+        url: `search-Property?search=${title}`,
+      }),
+    }),
   }),
 })
 
-export const { useAddPropertyMutation , useCategoryFilterQuery , useSingleCategoryPropertyQuery } = propertyApi
+export const { useAddPropertyMutation , useCategoryFilterQuery , useSingleCategoryPropertyQuery , useSearchCategoryPropertyQuery } = propertyApi

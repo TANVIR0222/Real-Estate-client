@@ -7,6 +7,7 @@ import { propertyApi } from './feature/propertyApi/propertyApi'
 import { imageApi } from './feature/imageUploade/imageApi'
 import  propertyReducer  from './feature/propertyApi/propertySlice'
 import { bookingApi } from './feature/bookingApi/bookingApi'
+import { tripApi } from './feature/tripListApi/tripApi'
 
 
 export const store = configureStore({
@@ -17,10 +18,11 @@ export const store = configureStore({
     [propertyApi.reducerPath]: propertyApi.reducer,
     [imageApi.reducerPath]: imageApi.reducer,
     [bookingApi.reducerPath]: bookingApi.reducer,
+    [tripApi.reducerPath]: tripApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware,propertyApi.middleware,imageApi.middleware,bookingApi.middleware),
+    getDefaultMiddleware().concat(authApi.middleware,propertyApi.middleware,imageApi.middleware,bookingApi.middleware,tripApi.middleware),
 })
 
 

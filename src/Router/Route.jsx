@@ -7,6 +7,8 @@ import CreateListing from "@/page/CreateListing";
 import ListCart from "@/components/popularCategory/ListCart";
 import PropertyView from "@/components/popularCategory/PropertyView";
 import WishList from "@/page/WishList";
+import TripList from "@/page/TripList";
+import SearchView from "@/components/popularCategory/SearchView";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +42,14 @@ export const router = createBrowserRouter([
         {
             path:'/favorite-booking',
             element: <WishList />
+        },
+        {
+            path:'/trip_list',
+            element: <TripList />
+        },
+        {
+            path:'/search-view',
+            element: <SearchView />
         },
     ]
   },

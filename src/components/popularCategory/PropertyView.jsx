@@ -155,6 +155,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import { useState } from "react";
 import { useAddTripListMutation } from "@/app/feature/tripListApi/tripApi";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 const PropertyView = () => {
   const { id } = useParams();

@@ -53,7 +53,7 @@ const ListCart = ({ property }) => {
       };
 
      const res = await addFavoite(data).unwrap();
-     console.log(res.message);
+     alert(res.message);
     } catch (error) {
       alert(error.data.message);
     }

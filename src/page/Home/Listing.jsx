@@ -66,7 +66,6 @@ const categories = [
 const Listing = () => {
   const [category, setSelectedCategory] = useState("All");
   const { data: property, isLoading } = useCategoryFilterQuery(category);
-  // console.log(property);
 
   return (
     <div className="pb-16 text-center items-center">

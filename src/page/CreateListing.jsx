@@ -128,7 +128,7 @@ const CreateListing = () => {
       const response = await addProperty(data).unwrap();
       if (response.success) {
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           title: "Your work has been saved",
           showConfirmButton: false,

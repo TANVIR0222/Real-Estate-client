@@ -21,16 +21,17 @@ const SearchView = () => {
           />
         </div>
 
-        <div className="mt-8 w-full  p-4 rounded shadow">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+        <div className="mt-8 w-full  p-4 rounded">
+        <h2 className="text-2xl font-semibold text-gray-700 mb-4">
             Results:
           </h2>
-          {data?.length > 0 ? (
-            <div className="list-disc pl-5 space-y-2">
+         <div className=" mx-auto flex items-center justify-center">
+         {data?.length > 0 ? (
+            <div className="list-disc pl-5 space-y-2  ">
               {data?.map((item, index) => (
                 <div
                   key={item._id}
-                  className=" gap-4 ring-1 ring-slate-900/5 w-96 md:w-[600px] place-items-start my-5 bg-white cursor-pointer p-4 rounded-[2.5rem] relative mx-4 text-left mt-16"
+                  className=" gap-4 ring-1 ring-slate-900/5 w-96 md:w-[600px] place-items-start my-5 bg-white cursor-pointer p-4 rounded-[2.5rem] relative mx-4 text-left mt-6"
                 >
                   <Link to={`/property/${item._id}`}>
                     <div>
@@ -66,6 +67,7 @@ const SearchView = () => {
           ) : (
             <p className="text-gray-500">No results found</p>
           )}
+         </div>
         </div>
       </div>
     </div>

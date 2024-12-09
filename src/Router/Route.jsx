@@ -44,7 +44,7 @@ export const router = createBrowserRouter([
             element: <WishList />
         },
         {
-            path:'/trip_list',
+            path:'/trip-list',
             element: <TripList />
         },
         {

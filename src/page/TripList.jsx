@@ -14,7 +14,7 @@ import { formateDate } from "@/utils/formateDate";
 
 const TripList = () => {
   const { user } = useSelector((state) => state.auth);
-  const { data, isLoading } = useAllTripListQuery(user?.id);    
+  const { data, isLoading } = useAllTripListQuery(user?.id);
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
 
   return isLoading ? (
@@ -26,7 +26,7 @@ const TripList = () => {
           key={item._id}
           className=" gap-4 ring-1 ring-slate-900/5 w-96 md:w-[600px] place-items-start my-5 bg-white cursor-pointer p-4 rounded-[2.5rem] relative mx-4 text-left mt-16"
         >
-          <Link to={`/property/${item.propertyId}`}  >
+          <Link to={`/property/${item._id}`}>
             <div>
               {
                 <Carousel
@@ -49,7 +49,7 @@ const TripList = () => {
                     ))}
                   </CarouselContent>
                 </Carousel>
-            }
+              }
             </div>
             {/*  */}
             <div className="text-left max-sm:p-2 md:w-1/2 w-full">
@@ -68,28 +68,25 @@ const TripList = () => {
               </div>
               <p className=" line-clamp-4"> {item.descriptions}</p>
               <div className="flexStart gap-x-2 pt-2">
-                  <h5 className="bold-16">Total : </h5>
-                  <p className=" relative p-1">
-                    ${item?.price}
-                  </p>
+                <h5 className="bold-16">Total : </h5>
+                <p className=" relative p-1">${item?.price}</p>
+              </div>
+              <div className="">
+                <div className="">
+                  <div className="flex items-center gap-x-2 pt-2">
+                    <span className="relative p-1">Start Date :</span>
+                    <p> {formateDate(item?.start)} </p>
+                  </div>
                 </div>
-              <div className="">
-              <div className="">
-                <div className="flex items-center gap-x-2 pt-2">
-                  <span className="relative p-1">Start Date :</span>
-                  <p> {formateDate(item?.start)} </p>
+                {/*  */}
+                <div className="">
+                  <div className="flex items-center gap-x-2 pt-2">
+                    <span className="relative p-1">End Date :</span>
+                    <p> {formateDate(item?.end)} </p>
+                  </div>
                 </div>
               </div>
               {/*  */}
-              <div className="">
-                <div className="flex items-center gap-x-2 pt-2">
-                  <span className="relative p-1">End Date :</span>
-                  <p> {formateDate(item?.end)} </p>
-                </div>
-              </div>
-            </div>
-              {/*  */}
-
             </div>
           </Link>
         </div>

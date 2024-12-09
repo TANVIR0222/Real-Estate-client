@@ -44,7 +44,7 @@ const UserDropdownMenu = ({user}) => {
           <DropdownMenuSeparator />
           <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
           <Link to={'/create-List'}><DropdownMenuRadioItem value="top">Add a Property</DropdownMenuRadioItem></Link> 
-          <Link to={'/trip_list'}> <DropdownMenuRadioItem value="bottom">Trip List</DropdownMenuRadioItem></Link> 
+          <Link to={'/trip-list'}> <DropdownMenuRadioItem value="bottom">Trip List</DropdownMenuRadioItem></Link> 
           <Link to={'/favorite-booking'}> <DropdownMenuRadioItem value="wish">Wish Lish</DropdownMenuRadioItem></Link> 
           <Link to={'/search-view'}> <DropdownMenuRadioItem value="property">Property List</DropdownMenuRadioItem></Link> 
             <DropdownMenuRadioItem onClick ={handleLogout} value="right">Logout</DropdownMenuRadioItem>

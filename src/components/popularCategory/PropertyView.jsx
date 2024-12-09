@@ -160,7 +160,7 @@ const PropertyView = () => {
   const { id } = useParams();
 
   const { data: property, isLoading } = useSingleCategoryPropertyQuery(id);
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);  
   const [selectDate, setSelectDate] = useState([
     {
       startDate: new Date(),
@@ -262,7 +262,7 @@ const PropertyView = () => {
           </div>
           {/*  */}
           <div className=" flex items-center gap-x-3 py-6">
-            <img src={user?.avatar} className="w-16 h-16 rounded-full" alt="" />
+            <img src={user?.profileImage} className="w-16 h-16 rounded-full" alt="" />
             <h5 className="medium-14 capitalize">
               {" "}
               Hosted by {user?.firstname} {user?.lastname}

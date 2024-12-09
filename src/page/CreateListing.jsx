@@ -10,6 +10,7 @@ import { MdDelete } from "react-icons/md";
 import PropetyList from "@/components/popularCategory/PropetyList";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const CreateListing = () => {
   const [category, setCategory] = useState("All");
@@ -97,8 +98,6 @@ const CreateListing = () => {
     });
   };
 
-  
-
   const [addProperty, { isLoading }] = useAddPropertyMutation();
   const navigate = useNavigate();
   const handlePost = async (e) => {
@@ -161,10 +160,13 @@ const CreateListing = () => {
     }
   };
 
-
-
   return (
     <div className="">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title> Add Property </title>
+        <link rel="canonical" href="http://mysite.com/example" />
+      </Helmet>
       <div className="h3 my-14 md:mt-20">Add Property</div>
       <form className="mx-2 md:mx-4" onSubmit={handlePost}>
         <h4>Describe Your Property</h4>

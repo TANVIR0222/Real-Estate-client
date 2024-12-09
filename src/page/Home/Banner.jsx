@@ -78,17 +78,17 @@ const Banner = () => {
         <div className="flex">
           <img
             className="w-20 h-20 border-2 border-red  rounded-full"
-            src="/testimonial1.png"
+            src="/user.jpg"
             alt=""
           />
           <img
             className="w-20 h-20 border-2 -ml-4 border-red  rounded-full"
-            src="/testimonial2.png"
+            src="/user1.jpg"
             alt=""
           />
           <img
             className="w-20 h-20 border-2 -ml-4 border-red  rounded-full"
-            src="/testimonial3.png"
+            src="/user2.jpg"
             alt=""
           />
         </div>

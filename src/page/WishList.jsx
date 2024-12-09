@@ -12,6 +12,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { useSelector } from "react-redux";
 import Autoplay from "embla-carousel-autoplay";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 
 const WishList = () => {
@@ -37,6 +38,11 @@ const WishList = () => {
     <Loading />
   ) : (
     <div className=" grid grid-cols-1 md:grid-cols-2">
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>Wish List page</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       {data?.map((item) => (
         <div
           key={item._id}

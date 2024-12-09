@@ -223,6 +223,11 @@ const PropertyView = () => {
     <Loading />
   ) : (
     <div className="flex flex-col-reverse md:flex-row ">
+       <Helmet>
+          <meta charSet="utf-8" />
+          <title>Property View page</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <div className="max-padd-container flex flex-col-reverse gap-12 xl:flex-row py-10 mt-16 md:w-1/2 w-full">
         {/* left */}
         <div className="flex-1">

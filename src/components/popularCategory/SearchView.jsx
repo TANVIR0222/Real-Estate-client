@@ -1,5 +1,6 @@
 import { useSearchCategoryPropertyQuery } from "@/app/feature/propertyApi/propertyApi";
 import React, { useState } from "react";
+import { Helmet } from "react-helmet";
 import { CiLocationOn } from "react-icons/ci";
 import { Link } from "react-router-dom";
 
@@ -8,6 +9,11 @@ const SearchView = () => {
   const { data } = useSearchCategoryPropertyQuery(search);
   return (
     <div className="my-20">
+      <Helmet>
+          <meta charSet="utf-8" />
+          <title>Search View page</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       <div className="min-h-screen bg-gray-100 flex flex-col items-center p-5">
         <h1 className="text-4xl font-bold text-gray-800 mb-6">Search Page</h1>
 

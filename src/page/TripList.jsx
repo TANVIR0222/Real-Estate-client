@@ -11,6 +11,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { Link } from "react-router-dom";
 import { CiLocationOn } from "react-icons/ci";
 import { formateDate } from "@/utils/formateDate";
+import { Helmet } from "react-helmet";
 
 const TripList = () => {
   const { user } = useSelector((state) => state.auth);
@@ -21,6 +22,11 @@ const TripList = () => {
     <Loading />
   ) : (
     <div className=" grid grid-cols-1 md:grid-cols-2">
+       <Helmet>
+          <meta charSet="utf-8" />
+          <title>Trip List Page</title>
+          <link rel="canonical" href="http://mysite.com/example" />
+        </Helmet>
       {data?.map((item) => (
         <div
           key={item._id}

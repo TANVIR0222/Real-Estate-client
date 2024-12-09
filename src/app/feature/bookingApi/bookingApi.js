@@ -4,6 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const bookingApi = createApi({
   reducerPath: 'bookingApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${getBaseUrl()}/api/booking/` }),
+  
   endpoints: (builder) => ({
     addFavoite: builder.mutation({
       query: (newData) => ({
@@ -13,15 +14,16 @@ export const bookingApi = createApi({
       }),
     }),
     favoriteProperty: builder.query({
-      query: (id) => `all-trip-list/${id}`
+      query: (id) => `favorite-booking/${id}`
     }),
    
-    // singleCategoryProperty: builder.query({
-    //   query: (_id) => ({
-    //     url: `single-Property/${_id}`,
-    //   }),
-    // }),
+    bookingDelete: builder.mutation({
+      query: (id) => ({
+        url: `favorite-user/${id}`,
+        method:'DELETE',
+      }),
+    }),
   }),
 })
 
-export const { useAddFavoiteMutation  , useFavoritePropertyQuery } = bookingApi
+export const { useAddFavoiteMutation  , useFavoritePropertyQuery , useBookingDeleteMutation } = bookingApi

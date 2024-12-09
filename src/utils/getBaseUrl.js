@@ -1,6 +1,6 @@
 
 const getBaseUrl = () => {
-    return "http://localhost:5000"
+    return "https://real-estate-api-ts22.onrender.com"
 };
 
 export default getBaseUrl;

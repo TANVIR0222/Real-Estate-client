@@ -59,6 +59,7 @@ const Login = () => {
                 type="email"
                 placeholder="Email Address"
                 className=" w-80 md:w-96 bg-gray-200 "
+                defaultValue={'admin@gmail.com'}
                 id="email"
                 {...register("email", { required: true })}
               />
@@ -71,11 +72,13 @@ const Login = () => {
               <Input
                 type="password"
                 placeholder="Password"
+                defaultValue={'admin'}
                 className=" w-80 md:w-96 bg-gray-200 "
                 id="password"
                 {...register("password", { required: true })}
               />
               <p>{error.msg}</p>
+              {/* <input type="text"  /> */}
             </div>
             {/* login btn */}
             <div className=" mt-6">

@@ -2,6 +2,7 @@ import { useUserLoginMutation } from "@/app/feature/auth/authApi";
 import { setUser } from "@/app/feature/auth/authSlice";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { Helmet } from "react-helmet";
 import { useForm } from "react-hook-form";
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 import { useDispatch } from "react-redux";
@@ -42,6 +43,10 @@ const Login = () => {
   return (
     <div>
       <div className=" flex items-center justify-center   h-fit">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Login page </title>
+      </Helmet>
         <div className="mt-20 shadow-2xl bg-white p-4 rounded ">
           <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <h1 className=" font-bold text-lg">Login</h1>

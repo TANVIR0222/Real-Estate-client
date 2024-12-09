@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { AiOutlineUpload } from "react-icons/ai";
 import { useImageUploadeMutation } from "@/app/feature/imageUploade/imageApi";
 import Loading from "@/components/popularCategory/Loading";
+import { Helmet } from "react-helmet";
 
 const Register = () => {
   const [error, setError] = useState("");
@@ -61,6 +62,11 @@ const Register = () => {
   return (
     <>
       <div className=" flex items-center justify-center h-fit">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Register page </title>
+        <link rel="canonical" href="http://mysite.com/example" />
+      </Helmet>
         <div className="mt-10 shadow-xl bg-white p-4 rounded ">
           <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <h1 className=" font-bold text-lg">Create A Account !</h1>
